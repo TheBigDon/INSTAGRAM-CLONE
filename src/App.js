@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Post from "./Post";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -9,9 +10,10 @@ function App() {
   useEffect(() => {
     fetch(BASE_URL + "post/all")
       .then((response) => {
-        console.log(response.json());
+        const json = response.json();
+        console.log(json);
         if (response.ok) {
-          return response.json();
+          return json;
         }
         throw response;
       })
@@ -23,7 +25,14 @@ function App() {
         alert(error);
       });
   }, []);
-  return "Hello, world!";
+
+  return (
+    <div className="app_posts">
+      {posts?.map((post) => (
+        <Post post={post} />
+      ))}
+    </div>
+  );
 }
 
 export default App;
