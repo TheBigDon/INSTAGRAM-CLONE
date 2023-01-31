@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Post from "./Post";
-import {
-  Button,
-  Input,
-  makeStyles,
-  Modal,
-  ThemeProvider,
-} from "@material-ui/core";
+import { Button, Input, makeStyles, Modal } from "@material-ui/core";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -112,6 +106,13 @@ function App() {
     setOpenSignIn(false);
   };
 
+  const signOut = (event) => {
+    setAuthToken(null);
+    setAuthTokenType(null);
+    setUserId("");
+    setUsername("");
+  };
+
   return (
     <div className="app">
       <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
@@ -148,10 +149,14 @@ function App() {
           src="https://www.vectorlogo.zone/logos/instagram/instagram-ar21.svg"
           alt="Instagram"
         />
-        <div>
-          <Button onClick={() => setOpenSignIn(true)}>Login</Button>
-          <Button onClick={() => setOpenSignUp(true)}>SignUp</Button>
-        </div>
+        {authToken ? (
+          <Button onClick={() => signOut()}>Logout</Button>
+        ) : (
+          <div>
+            <Button onClick={() => setOpenSignIn(true)}>Login</Button>
+            <Button onClick={() => setOpenSignUp(true)}>SignUp</Button>
+          </div>
+        )}
       </div>
       <div className="app_posts">
         {posts?.map((post) => (
