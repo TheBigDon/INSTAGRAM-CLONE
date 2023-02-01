@@ -38,6 +38,7 @@ function App() {
   const [authToken, setAuthToken] = useState(null);
   const [authTokenType, setAuthTokenType] = useState(null);
   const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     setAuthToken(window.localStorage.getItem("authToken"));
@@ -95,7 +96,7 @@ function App() {
   }, []);
 
   const signIn = (event) => {
-    event.preventDefault();
+    event?.preventDefault();
 
     let formData = new FormData();
     formData.append("username", username);
@@ -135,6 +136,39 @@ function App() {
     setUsername("");
   };
 
+  const signUp = (event) => {
+    event?.preventDefault();
+
+    const json_string = JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: json_string,
+    };
+
+    fetch(BASE_URL + "user/", requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+        signIn();
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+
+    setOpenSignUp(false);
+  };
+
   return (
     <div className="app">
       <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
@@ -161,6 +195,40 @@ function App() {
             />
             <Button type="submit" onClick={signIn}>
               Login
+            </Button>
+          </form>
+        </div>
+      </Modal>
+      <Modal open={openSignUp} onClose={() => setOpenSignUp(false)}>
+        <div style={modalStyle} className={classes.paper}>
+          <form className="app_signin">
+            <center>
+              <img
+                className="app_headerImage"
+                src="https://www.vectorlogo.zone/logos/instagram/instagram-ar21.svg"
+                alt="Instagram"
+              />
+            </center>
+            <Input
+              placeholder="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+              placeholder="email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              placeholder="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" onClick={signUp}>
+              Sign Up
             </Button>
           </form>
         </div>
