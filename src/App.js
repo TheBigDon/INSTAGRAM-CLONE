@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Post from "./Post";
 import { Button, Input, makeStyles, Modal } from "@material-ui/core";
+import ImageUpload from "./ImageUpload";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -182,19 +183,19 @@ function App() {
               />
             </center>
             <Input
-              placeholder="username"
+              placeholder="имя"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <Input
-              placeholder="password"
+              placeholder="пароль"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" onClick={signIn}>
-              Login
+              Войти
             </Button>
           </form>
         </div>
@@ -210,7 +211,7 @@ function App() {
               />
             </center>
             <Input
-              placeholder="username"
+              placeholder="имя"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -222,13 +223,13 @@ function App() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
-              placeholder="password"
+              placeholder="пароль"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" onClick={signUp}>
-              Sign Up
+              Регистрация
             </Button>
           </form>
         </div>
@@ -240,11 +241,13 @@ function App() {
           alt="Instagram"
         />
         {authToken ? (
-          <Button onClick={() => signOut()}>Logout</Button>
+          <Button onClick={() => signOut()}>Выйти</Button>
         ) : (
           <div>
-            <Button onClick={() => setOpenSignIn(true)}>Login</Button>
-            <Button onClick={() => setOpenSignUp(true)}>SignUp</Button>
+            <Button onClick={() => setOpenSignIn(true)}>Войти</Button>
+            <Button onClick={() => setOpenSignUp(true)}>
+              Зарегистрироваться
+            </Button>
           </div>
         )}
       </div>
@@ -253,6 +256,11 @@ function App() {
           <Post post={post} />
         ))}
       </div>
+      {authToken ? (
+        <ImageUpload authToken={authToken} authTokenType={authTokenType} />
+      ) : (
+        <h3>Вам нужно быть авторизованным, чтобы загружать изображения</h3>
+      )}
     </div>
   );
 }
