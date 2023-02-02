@@ -257,7 +257,11 @@ function App() {
         ))}
       </div>
       {authToken ? (
-        <ImageUpload authToken={authToken} authTokenType={authTokenType} />
+        <ImageUpload
+          authToken={authToken}
+          authTokenType={authTokenType}
+          userId={userId}
+        />
       ) : (
         <h3>Вам нужно быть авторизованным, чтобы загружать изображения</h3>
       )}
