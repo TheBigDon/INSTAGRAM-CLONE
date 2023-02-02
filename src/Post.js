@@ -27,7 +27,7 @@ function Post({ post }) {
       </div>
       <div className="post_headerInfo">
         <h3>{post.user.username}</h3>
-        <Button className="post_delete">Delete</Button>
+        <Button className="post_delete">Удалить</Button>
       </div>
       <img className="post_image" src={imageUrl} />
       <h4 className="post_text">{post.caption}</h4>
